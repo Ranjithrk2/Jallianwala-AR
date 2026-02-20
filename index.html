@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jallianwala Bagh AR</title>
+
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+  <style>
+    body { margin:0; overflow:hidden; }
+  </style>
+</head>
+
+<body>
+
+<a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+
+  <!-- Marker -->
+  <a-marker type="pattern" url="marker.patt">
+
+    <!-- War Video -->
+    <a-video 
+        src="war.mp4"
+        position="0 0 0"
+        rotation="-90 0 0"
+        width="2"
+        height="1.2"
+        autoplay
+        loop="true">
+    </a-video>
+
+    <!-- Historical Text Overlay -->
+    <a-text value="Jallianwala Bagh Massacre, 1919"
+            position="0 1.2 0"
+            rotation="-90 0 0"
+            color="#ff0000"
+            align="center"
+            width="3">
+    </a-text>
+
+    <!-- Gunshot Sound Effect -->
+    <a-sound src="gunshot.mp3" autoplay="true" loop="true" volume="1"></a-sound>
+
+    <!-- Smoke/Particle Effect -->
+    <a-entity particle-system="preset: dust; particleCount: 1000; size: 0.05; color: #880000, #ff0000, #555555"></a-entity>
+
+  </a-marker>
+
+  <!-- Camera -->
+  <a-entity camera></a-entity>
+
+</a-scene>
+
+</body>
+</html>
