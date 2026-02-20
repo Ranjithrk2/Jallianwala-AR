@@ -4,15 +4,19 @@
   <title>Jallianwala Bagh AR</title>
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jesstelford/aframe-particle-system-component/dist/aframe-particle-system-component.min.js"></script>
   <style>body { margin:0; overflow:hidden; }</style>
 </head>
 <body>
 
-<!-- Hidden HTML video -->
-<video id="warVideo" src="war.mp4" loop autoplay muted playsinline style="display:none"></video>
+<!-- Hidden Video Element -->
+<video id="warVideo" src="war.mp4" loop muted playsinline style="display:none"></video>
+<!-- Hidden Gunshot Audio -->
+<audio id="gunshotAudio" src="gunshot.mp3" loop></audio>
 
 <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 
+  <!-- Marker -->
   <a-marker type="pattern" url="marker.patt">
 
     <!-- AR Video -->
@@ -23,7 +27,7 @@
              height="1.2">
     </a-video>
 
-    <!-- Historical Text -->
+    <!-- Historical Text Overlay -->
     <a-text value="Jallianwala Bagh Massacre, 1919"
             position="0 1.2 0"
             rotation="-90 0 0"
@@ -32,10 +36,30 @@
             width="3">
     </a-text>
 
+    <!-- Smoke / Blood Particle Effect -->
+    <a-entity particle-system="preset: dust; particleCount: 600; size: 0.05; color: #880000, #ff0000, #555555; velocityValue: 0 1 0; lifetime: 2"></a-entity>
+
   </a-marker>
 
+  <!-- Camera -->
   <a-entity camera></a-entity>
 </a-scene>
+
+<script>
+// Get video and audio elements
+const videoEl = document.getElementById('warVideo');
+const audioEl = document.getElementById('gunshotAudio');
+
+// Start video and audio on user interaction
+document.body.addEventListener('click', () => {
+    videoEl.muted = false; // optional: unmute video if you want audio
+    videoEl.play().then(() => console.log("Video playing"));
+    audioEl.play().then(() => console.log("Gunshot audio playing"));
+});
+
+// Auto-play video muted (for Chrome autoplay policy)
+videoEl.play().catch(err => console.log("Muted autoplay started"));
+</script>
 
 </body>
 </html>
