@@ -8,12 +8,11 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
   <style>
-    body { margin: 0; overflow: hidden; font-family: Arial; }
+    body { margin: 0; overflow: hidden; }
 
     #overlay {
       position: fixed;
       top: 0;
-      left: 0;
       width: 100%;
       padding: 15px;
       background: rgba(0,0,0,0.7);
@@ -26,42 +25,36 @@
 
 <body>
 
-<div id="overlay">
-  📷 Scan the QR marker to experience AR
-</div>
+<div id="overlay">📷 Scan the marker</div>
 
-<a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+<a-scene
+  embedded
+  vr-mode-ui="enabled: false"
+  renderer="logarithmicDepthBuffer: true;"
+  arjs="sourceType: webcam; debugUIEnabled: false;"
+>
 
   <a-assets>
-    <video id="warVideo"
-           src="war.mp4"
-           preload="auto"
-           loop
-           crossorigin="anonymous"
-           playsinline
-           webkit-playsinline>
+    <video
+      id="warVideo"
+      src="war.mp4"
+      preload="auto"
+      loop
+      muted
+      playsinline
+      webkit-playsinline
+      crossorigin="anonymous">
     </video>
   </a-assets>
 
-  <!-- MATCHING YOUR FILE NAME -->
   <a-marker type="pattern" url="pattern-war.patt" id="marker">
 
-    <a-plane
-      position="0 0 0"
-      rotation="-90 0 0"
+    <a-video
+      src="#warVideo"
       width="2.5"
       height="1.5"
-      material="shader: flat; src: #warVideo;">
-    </a-plane>
-
-    <a-text
-      value="Jallianwala Bagh - 1919"
-      position="0 1.4 0"
-      rotation="-90 0 0"
-      align="center"
-      color="red"
-      width="4">
-    </a-text>
+      rotation="-90 0 0">
+    </a-video>
 
   </a-marker>
 
@@ -74,17 +67,17 @@
   const video = document.querySelector('#warVideo');
   const overlay = document.getElementById('overlay');
 
-  marker.addEventListener('markerFound', function () {
+  marker.addEventListener('markerFound', () => {
     video.play();
     overlay.style.display = "none";
   });
 
-  marker.addEventListener('markerLost', function () {
+  marker.addEventListener('markerLost', () => {
     video.pause();
     overlay.style.display = "block";
   });
 
-  window.addEventListener('click', function () {
+  document.body.addEventListener('click', () => {
     video.play();
   });
 </script>
