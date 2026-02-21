@@ -22,10 +22,11 @@
 
 <a-scene
   embedded
+  renderer="logarithmicDepthBuffer: true;"
   arjs="sourceType: webcam; debugUIEnabled: false;"
 >
 
-  <!-- ✅ Assets (VERY IMPORTANT) -->
+  <!-- Assets -->
   <a-assets>
     <video id="warVideo"
            src="war.mp4"
@@ -37,21 +38,19 @@
     </video>
   </a-assets>
 
-  <!-- ✅ Marker -->
-  <a-marker type="pattern" url="marker.patt" id="marker">
+  <!-- HIRO MARKER -->
+  <a-marker preset="hiro" id="marker">
 
-    <!-- ✅ Video Plane -->
-    <a-video
-      id="videoPlane"
-      src="#warVideo"
+    <!-- Video Plane -->
+    <a-plane
       position="0 0 0"
       rotation="-90 0 0"
       width="2.5"
       height="1.5"
-      material="shader: flat">
-    </a-video>
+      material="shader: flat; src: #warVideo;">
+    </a-plane>
 
-    <!-- ✅ Text -->
+    <!-- Text -->
     <a-text
       value="Jallianwala Bagh Massacre - 1919"
       position="0 1.4 0"
@@ -76,7 +75,7 @@
     video.play();
   });
 
-  // Pause video when marker is lost
+  // Pause when marker is lost
   marker.addEventListener('markerLost', function () {
     video.pause();
   });
